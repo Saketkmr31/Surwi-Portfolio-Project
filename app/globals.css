@@ -366,3 +366,45 @@
   .full-photo-hero .photo-skill-chip{left:16px;bottom:18px}
   .full-photo-hero .skill-cube{--cube-size:clamp(48px,13vw,68px)}
 }
+
+
+/* Final polish for the live photo-particle canvas and genuinely dimensional skill cubes. */
+.full-photo-hero .photo-particle-canvas{
+  mix-blend-mode:normal;
+  opacity:1;
+  filter:none;
+}
+.full-photo-hero .hero-photo{
+  opacity:1;
+  filter:drop-shadow(0 14px 40px rgba(0,0,0,.22));
+}
+.full-photo-hero .skill-cube{
+  transform-style:preserve-3d;
+  transform:translateZ(0);
+  animation:photoParticleFloat 6.2s ease-in-out infinite;
+  animation-delay:calc(var(--cube-index)*-.47s);
+}
+.full-photo-hero .skill-cube-shell{
+  transform-style:preserve-3d;
+  animation:skillCube3DRotate 8.5s ease-in-out infinite;
+  animation-delay:calc(var(--cube-index)*-.58s);
+}
+.full-photo-hero .skill-cube:hover .skill-cube-shell,
+.full-photo-hero .skill-cube:focus-visible .skill-cube-shell,
+.full-photo-hero .skill-cube.is-active .skill-cube-shell{
+  animation-play-state:paused;
+  transform:translateZ(24px) rotateX(-3deg) rotateY(180deg) rotateZ(0deg) scale(1.1);
+}
+@keyframes skillCube3DRotate{
+  0%,100%{transform:perspective(900px) rotateX(-9deg) rotateY(-15deg) rotateZ(-2deg)}
+  35%{transform:perspective(900px) rotateX(8deg) rotateY(22deg) rotateZ(1deg)}
+  68%{transform:perspective(900px) rotateX(-4deg) rotateY(8deg) rotateZ(-1deg)}
+}
+@media(max-width:700px){
+  .full-photo-hero .photo-particle-canvas{opacity:1}
+  .full-photo-hero .skill-cube-shell{animation-duration:10s}
+}
+@media(prefers-reduced-motion:reduce){
+  .full-photo-hero .skill-cube,
+  .full-photo-hero .skill-cube-shell{animation:none!important}
+}
