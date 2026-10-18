@@ -408,3 +408,48 @@
   .full-photo-hero .skill-cube,
   .full-photo-hero .skill-cube-shell{animation:none!important}
 }
+
+
+/* Source-photo canvas is the visible portrait layer; the semantic img remains for alt text and fallback. */
+.full-photo-hero .hero-photo{opacity:0}
+.full-photo-hero .hero-photo-backdrop{opacity:.9;filter:blur(22px) brightness(.4) saturate(1.12)}
+.full-photo-hero .photo-particle-canvas{z-index:0;mix-blend-mode:normal;opacity:1}
+.full-photo-hero .photo-shade{pointer-events:none}
+.full-photo-hero .photo-hero-copy{width:min(520px,37vw)}
+.full-photo-hero .photo-hero-copy h1{font-size:clamp(48px,5.9vw,84px)}
+.full-photo-hero .photo-hero-copy .stat-strip{gap:22px;margin-top:28px}
+.full-photo-hero .skill-cube{--cube-size:clamp(60px,5.4vw,88px)}
+.full-photo-hero .skill-cube:nth-child(1){--cube-left:47%;--cube-top:34%}
+.full-photo-hero .skill-cube:nth-child(2){--cube-left:68%;--cube-top:36%}
+.full-photo-hero .skill-cube:nth-child(3){--cube-left:72%;--cube-top:49%}
+.full-photo-hero .skill-cube:nth-child(4){--cube-left:59%;--cube-top:55%}
+.full-photo-hero .skill-cube:nth-child(5){--cube-left:69%;--cube-top:65%}
+.full-photo-hero .skill-cube:nth-child(6){--cube-left:49%;--cube-top:72%}
+.full-photo-hero .skill-cube:nth-child(7){--cube-left:43%;--cube-top:49%}
+.full-photo-hero .skill-cube:nth-child(8){--cube-left:48%;--cube-top:28%}
+.full-photo-hero .photo-hero-mark{right:4vw;bottom:5vh}
+.skills-section,.reels-section,.experience-band,.contact-section{
+  position:relative;
+  isolation:isolate;
+}
+.skills-section:before,.reels-section:before,.experience-band:before,.contact-section:before{
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(ellipse at 82% 35%,rgba(89,139,215,.09),transparent 45%),linear-gradient(180deg,rgba(8,11,18,.94),rgba(8,11,18,.98));
+}
+.creator-page .skills-section:before,.creator-page .reels-section:before,.creator-page .experience-band:before,.creator-page .contact-section:before{
+  background:radial-gradient(ellipse at 82% 35%,rgba(194,92,229,.1),transparent 45%),linear-gradient(180deg,rgba(9,8,16,.94),rgba(9,8,16,.98));
+}
+@media(max-width:700px){
+  .full-photo-hero .hero-photo{opacity:0}
+  .full-photo-hero .photo-hero-copy{width:100%;max-width:100%}
+  .full-photo-hero .photo-hero-copy h1{font-size:clamp(43px,10.8vw,64px)}
+  .full-photo-hero .skill-cube{--cube-size:clamp(46px,12vw,64px)}
+  .full-photo-hero .skill-cube:nth-child(1){--cube-left:33%;--cube-top:38%}
+  .full-photo-hero .skill-cube:nth-child(2){--cube-left:60%;--cube-top:42%}
+  .full-photo-hero .skill-cube:nth-child(3){--cube-left:66%;--cube-top:54%}
+  .full-photo-hero .skill-cube:nth-child(4){--cube-left:42%;--cube-top:57%}
+  .full-photo-hero .skill-cube:nth-child(5){--cube-left:60%;--cube-top:66%}
+  .full-photo-hero .skill-cube:nth-child(6){--cube-left:31%;--cube-top:72%}
+  .full-photo-hero .skill-cube:nth-child(7){--cube-left:30%;--cube-top:50%}
+  .full-photo-hero .skill-cube:nth-child(8){--cube-left:35%;--cube-top:31%}
+}
