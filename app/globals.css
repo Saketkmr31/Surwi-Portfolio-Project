@@ -246,3 +246,22 @@
  .skill-cube-back small{font-size:7px}
 }
 @media(prefers-reduced-motion:reduce){.skill-cube-shell{transition:none}}
+
+
+/* Site-wide particle atmosphere: continue the portrait universe beyond the first screen. */
+.portfolio-page{position:relative;isolation:isolate;background:transparent}
+.portfolio-page::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;background-image:radial-gradient(circle at 14% 18%,rgba(85,151,255,.12) 0 1px,transparent 2px),radial-gradient(circle at 77% 32%,rgba(133,183,255,.16) 0 1px,transparent 2px),radial-gradient(circle at 58% 77%,rgba(255,255,255,.11) 0 1px,transparent 2px),radial-gradient(circle at 88% 82%,rgba(100,160,255,.13) 0 1px,transparent 2px);background-size:170px 190px,230px 250px,210px 180px,260px 220px;animation:siteParticleDrift 24s linear infinite}
+.portfolio-page::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,rgba(7,10,17,.72),rgba(7,10,17,.94) 45%,rgba(7,10,17,.98))}
+.creator-page::before{background-image:radial-gradient(circle at 14% 18%,rgba(223,126,255,.17) 0 1px,transparent 2px),radial-gradient(circle at 77% 32%,rgba(255,194,143,.15) 0 1px,transparent 2px),radial-gradient(circle at 58% 77%,rgba(255,255,255,.11) 0 1px,transparent 2px),radial-gradient(circle at 88% 82%,rgba(214,111,255,.14) 0 1px,transparent 2px)}
+.skills-section,.experience-band,.contact-section,.site-footer,.reels-section{position:relative;isolation:isolate;background:rgba(7,10,17,.76);backdrop-filter:blur(3px)}
+.creator-page .skills-section,.creator-page .experience-band,.creator-page .contact-section,.creator-page .site-footer,.creator-page .reels-section{background:rgba(10,7,16,.76)}
+.skills-section::before,.experience-band::before,.contact-section::before,.reels-section::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(circle at 88% 22%,rgba(82,145,255,.10),transparent 24%),radial-gradient(circle at 12% 82%,rgba(82,145,255,.06),transparent 22%)}
+.creator-page .skills-section::before,.creator-page .experience-band::before,.creator-page .contact-section::before,.creator-page .reels-section::before{background:radial-gradient(circle at 88% 22%,rgba(207,100,255,.12),transparent 24%),radial-gradient(circle at 12% 82%,rgba(255,184,118,.06),transparent 22%)}
+.skill-tile,.reel-card{backdrop-filter:blur(10px);background:linear-gradient(145deg,rgba(21,29,44,.66),rgba(8,11,18,.72));transition:transform .45s cubic-bezier(.2,.8,.2,1),border-color .35s,box-shadow .35s}
+.skill-tile:hover,.reel-card:hover{transform:translateY(-6px) perspective(900px) rotateX(2deg);box-shadow:0 18px 45px rgba(0,0,0,.25),0 0 26px rgba(104,168,255,.08)}
+.creator-page .reel-card:hover{box-shadow:0 18px 45px rgba(0,0,0,.25),0 0 26px rgba(215,123,255,.1)}
+.experience-item{transition:padding .3s ease,border-color .3s ease}
+.experience-item:hover{padding-left:12px;border-color:rgba(104,168,255,.35)}
+.creator-page .experience-item:hover{border-color:rgba(215,123,255,.38)}
+@keyframes siteParticleDrift{0%{background-position:0 0,0 0,0 0,0 0}100%{background-position:170px -190px,-230px 250px,210px -180px,-260px 220px}}
+@media(prefers-reduced-motion:reduce){.portfolio-page::before{animation:none}.skill-tile,.reel-card,.experience-item{transition:none}}
