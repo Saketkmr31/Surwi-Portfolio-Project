@@ -1,53 +1,62 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
-const corporateSkills = ['Guest relations', 'Visitor management', 'Front-desk operations', 'Meeting-room coordination', 'Access-card support', 'Facility operations', 'Daily reporting', 'SOP compliance'];
-const creatorSkills = ['Traditional styling', 'Saree looks', 'Fashion transitions', 'Jewellery details', 'Beauty looks', 'Lifestyle stories', 'Reel storytelling', 'Brand collaborations'];
+const corporateSkills = [
+  ['01', 'Guest relations', 'Warm, professional visitor experience'],
+  ['02', 'Visitor management', 'Smooth arrivals and client handling'],
+  ['03', 'Front-desk operations', 'Reception and lobby coordination'],
+  ['04', 'Meeting rooms', 'Room readiness and hospitality'],
+  ['05', 'Access cards', 'Activation and access coordination'],
+  ['06', 'Facility operations', 'Cross-team issue follow-up'],
+  ['07', 'Daily reporting', 'Registers, Excel and documentation'],
+  ['08', 'SOP compliance', 'Consistent service standards'],
+];
+const creatorSkills = [
+  ['01', 'Traditional styling', 'Saree looks and festive fashion'],
+  ['02', 'Fashion reels', 'Outfit transitions and styling'],
+  ['03', 'Beauty looks', 'Makeup, jewellery and details'],
+  ['04', 'Lifestyle', 'Everyday moments and visual diaries'],
+  ['05', 'Storytelling', 'Turning moments into short-form stories'],
+  ['06', 'Brand work', 'Creator partnerships and campaigns'],
+  ['07', 'Visual mood', 'Colour, light and composition'],
+  ['08', 'Social content', 'Reels, posts and community'],
+];
 
 export default function InteractivePhotoGrid({ image, variant = 'corporate' }: { image: string; variant?: 'corporate' | 'creator' }) {
-  const [active, setActive] = useState(-1);
-  const cells = useMemo(() => Array.from({ length: 12 * 18 }, (_, i) => i), []);
+  const [active, setActive] = useState<number | null>(null);
   const skills = variant === 'creator' ? creatorSkills : corporateSkills;
 
   return (
-    <div className={'interactive-photo-grid ' + variant} aria-label="Interactive 3D portrait cubes">
-      <div className="photo-grid-tiles">
-        {cells.map((cell) => {
-          const x = cell % 12;
-          const y = Math.floor(cell / 12);
-          const skill = skills[cell % skills.length];
-          return (
-            <button
-              className={'photo-cube ' + (active === cell ? 'is-active' : '')}
-              key={cell}
-              type="button"
-              aria-label={'Explore ' + skill}
-              onMouseEnter={() => setActive(cell)}
-              onFocus={() => setActive(cell)}
-              onMouseLeave={() => setActive(-1)}
-              onBlur={() => setActive(-1)}
-              onClick={() => setActive(active === cell ? -1 : cell)}
-              style={{
-                backgroundImage: 'url("' + image + '")',
-                backgroundSize: '1200% 1800%',
-                backgroundPosition: ((x / 11) * 100) + '% ' + ((y / 17) * 100) + '%',
-                transitionDelay: active === cell ? '0ms' : ((cell % 12) * 13) + 'ms'
-              }}
-            >
-              <span className="photo-cube-front" />
-              <span className="photo-cube-back"><b>{String((cell % skills.length) + 1).padStart(2, '0')}</b><strong>{skill}</strong></span>
-            </button>
-          );
-        })}
+    <div className={'interactive-photo-grid ' + variant} aria-label="Floating 3D skill cubes">
+      <div className="skill-cube-field">
+        {skills.map((skill, i) => (
+          <button
+            className={'skill-cube ' + (active === i ? 'is-active' : '')}
+            key={skill[0]}
+            type="button"
+            aria-label={skill[1] + '. ' + skill[2]}
+            aria-pressed={active === i}
+            onMouseEnter={() => setActive(i)}
+            onMouseLeave={() => setActive(null)}
+            onFocus={() => setActive(i)}
+            onBlur={() => setActive(null)}
+            onClick={() => setActive(active === i ? null : i)}
+            style={{ '--cube-index': i } as React.CSSProperties}
+          >
+            <span className="skill-cube-face skill-cube-front">
+              <b>{skill[0]}</b><strong>{skill[1]}</strong><i>↗</i>
+            </span>
+            <span className="skill-cube-face skill-cube-back">
+              <b>{skill[0]} / SKILL</b><strong>{skill[1]}</strong><small>{skill[2]}</small>
+            </span>
+          </button>
+        ))}
       </div>
-      <div className={'photo-skill-chip ' + (active >= 0 ? 'visible' : '')} aria-live="polite">
-        <span>{active >= 0 ? String((active % skills.length) + 1).padStart(2, '0') : '✦'}</span>
-        {active >= 0 ? skills[active % skills.length] : 'Hover a cube to reveal a skill'}
+      <div className={'photo-skill-chip ' + (active !== null ? 'visible' : '')} aria-live="polite">
+        <span>{active !== null ? skills[active][0] : '✦'}</span>
+        {active !== null ? skills[active][1] + ' — ' + skills[active][2] : 'Hover / tap a floating cube'}
       </div>
-      <div className="floating-cube cube-one" />
-      <div className="floating-cube cube-two" />
-      <div className="floating-cube cube-three" />
     </div>
   );
 }
