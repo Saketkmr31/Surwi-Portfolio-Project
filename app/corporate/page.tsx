@@ -1,6 +1,5 @@
-﻿'use client';
+'use client';
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
 import ContactForm from '../../components/ContactForm';
 
 const skills=['Guest relations & front desk','Visitor and client management','Lobby & meeting-room operations','Access-card coordination','Facility-team coordination','Daily reporting & documentation','MS Office & registers','SOP compliance'];
