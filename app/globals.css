@@ -45,3 +45,20 @@
   .cube-detail-panel { left: 10px; right: 10px; top: 10px; padding: 8px 10px; font-size: 11px; }
   .cube-caption { left: 10px; right: 10px; bottom: 10px; font-size: 8px; }
 }
+
+
+/* Immersive full-screen studio portrait heroes */
+.full-photo-hero{position:relative;isolation:isolate;min-height:calc(100svh - 78px);width:100%;overflow:hidden;display:flex;align-items:center;padding:clamp(32px,7vw,110px) clamp(24px,8vw,140px);border-bottom:1px solid var(--line);background:#080b12}
+.hero-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 34%;z-index:-2}
+.corporate-photo-hero .hero-photo{object-position:center 28%}
+.creator-photo-hero .hero-photo{object-position:center 30%}
+.photo-shade{position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(5,8,15,.94) 0%,rgba(5,8,15,.77) 34%,rgba(5,8,15,.2) 68%,rgba(5,8,15,.06) 100%),linear-gradient(0deg,rgba(5,8,15,.52),transparent 35%)}
+.creator-photo-hero .photo-shade{background:linear-gradient(90deg,rgba(12,5,15,.88) 0%,rgba(12,5,15,.63) 35%,rgba(12,5,15,.12) 70%,rgba(12,5,15,.02) 100%),linear-gradient(0deg,rgba(12,5,15,.42),transparent 35%)}
+.photo-hero-copy{position:relative;z-index:1;width:min(610px,58vw);max-width:610px}
+.photo-hero-copy h1{font-size:clamp(54px,7.3vw,104px);text-wrap:balance}
+.photo-hero-copy .hero-intro{max-width:460px}
+.photo-hero-copy .stat-strip,.photo-hero-copy .social-metrics{max-width:470px}
+.photo-hero-mark{position:absolute;right:clamp(24px,5vw,78px);bottom:clamp(24px,4vw,55px);display:flex;flex-direction:column;align-items:flex-end;gap:8px;text-align:right;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;color:rgba(255,255,255,.85);text-shadow:0 2px 15px #000}
+.photo-hero-mark span:first-child{font-size:13px;color:#fff}
+.creator-photo-hero .photo-hero-mark span:first-child{color:#f0b6ff}
+@media(max-width:700px){.full-photo-hero{min-height:calc(100svh - 66px);padding:44px 22px 118px;align-items:flex-end}.hero-photo{object-position:58% center}.corporate-photo-hero .hero-photo{object-position:58% center}.creator-photo-hero .hero-photo{object-position:56% center}.photo-shade{background:linear-gradient(0deg,rgba(5,8,15,.96) 0%,rgba(5,8,15,.76) 40%,rgba(5,8,15,.14) 100%)}.creator-photo-hero .photo-shade{background:linear-gradient(0deg,rgba(12,5,15,.96) 0%,rgba(12,5,15,.73) 42%,rgba(12,5,15,.12) 100%)}.photo-hero-copy{width:100%;max-width:100%}.photo-hero-copy h1{font-size:clamp(48px,12vw,70px)}.photo-hero-copy .hero-intro{font-size:13px;max-width:380px}.photo-hero-copy .stat-strip,.photo-hero-copy .social-metrics{margin-top:24px}.photo-hero-mark{right:22px;top:20px;bottom:auto;font-size:8px}.photo-hero-mark span:first-child{font-size:10px}}
