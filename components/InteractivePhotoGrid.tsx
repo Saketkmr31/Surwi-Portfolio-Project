@@ -44,11 +44,13 @@ export default function InteractivePhotoGrid({ image, variant = 'corporate' }: {
             onClick={() => setActive(active === i ? null : i)}
             style={{ '--cube-index': i } as React.CSSProperties}
           >
-            <span className="skill-cube-face skill-cube-front">
-              <b>{skill[0]}</b><strong>{skill[1]}</strong><i>↗</i>
-            </span>
-            <span className="skill-cube-face skill-cube-back">
-              <b>{skill[0]} / SKILL</b><strong>{skill[1]}</strong><small>{skill[2]}</small>
+            <span className="skill-cube-shell">
+              <span className="skill-cube-face skill-cube-front"><b>{skill[0]}</b><strong>{skill[1]}</strong><i>↗</i></span>
+              <span className="skill-cube-face skill-cube-back"><b>{skill[0]} / SKILL</b><strong>{skill[1]}</strong><small>{skill[2]}</small></span>
+              <span className="skill-cube-face skill-cube-side skill-cube-left" />
+              <span className="skill-cube-face skill-cube-side skill-cube-right" />
+              <span className="skill-cube-face skill-cube-side skill-cube-top" />
+              <span className="skill-cube-face skill-cube-side skill-cube-bottom" />
             </span>
           </button>
         ))}
