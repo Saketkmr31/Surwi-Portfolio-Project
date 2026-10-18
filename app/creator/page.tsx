@@ -35,12 +35,6 @@ export default function Creator() {
             <a className="primary-button" href="https://www.instagram.com/surwiofficial/" target="_blank" rel="noreferrer">Instagram ↗</a>
             <a className="text-link" href="https://www.youtube.com/@surwi_kamat" target="_blank" rel="noreferrer">YouTube ↗</a>
           </div>
-          <div className="social-metrics">
-            <div><strong>20.6K</strong><span>Followers*</span></div>
-            <div><strong>811</strong><span>Posts*</span></div>
-            <div><strong>∞</strong><span>Stories to tell</span></div>
-          </div>
-          <p className="metrics-note">*Profile figures from the screenshot provided; they may change.</p>
         </div>
         <div className="photo-hero-mark"><span>@SURWIOFFICIAL</span><span>FASHION · TRADITIONAL LOOKS · LIFESTYLE</span></div>
       </section>
