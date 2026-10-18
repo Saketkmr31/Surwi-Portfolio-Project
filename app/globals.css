@@ -598,3 +598,51 @@
     background: linear-gradient(180deg, rgba(5,8,15,.12), rgba(5,8,15,.50)) !important;
   }
 }
+
+
+/* Root cause fix: the fixed .portfolio-page::after overlay was painting an almost opaque
+   dark gradient over the page image. Put the real photo on the fixed ::before layer and
+   keep the overlay translucent, so it remains visible from hero through footer. */
+.portfolio-page::before {
+  content: "" !important;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: -2 !important;
+  pointer-events: none !important;
+  background-image: url('/images/rupa-corporate.png') !important;
+  background-size: cover !important;
+  background-position: center 34% !important;
+  background-repeat: no-repeat !important;
+  filter: none !important;
+  opacity: 1 !important;
+  animation: none !important;
+}
+.portfolio-page.creator-page::before {
+  background-image: url('/images/rupa-creator.png') !important;
+  background-position: center 34% !important;
+}
+.portfolio-page::after {
+  content: "" !important;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: -1 !important;
+  pointer-events: none !important;
+  background: linear-gradient(180deg, rgba(5,8,15,.34), rgba(5,8,15,.48)) !important;
+}
+.portfolio-page.creator-page::after {
+  background: linear-gradient(180deg, rgba(9,5,14,.34), rgba(9,5,14,.48)) !important;
+}
+.portfolio-page.corporate-page,
+.portfolio-page.creator-page {
+  background: transparent !important;
+}
+@media (max-width: 700px) {
+  .portfolio-page::before,
+  .portfolio-page.creator-page::before {
+    background-position: center top !important;
+  }
+  .portfolio-page::after,
+  .portfolio-page.creator-page::after {
+    background: linear-gradient(180deg, rgba(5,8,15,.42), rgba(5,8,15,.58)) !important;
+  }
+}
