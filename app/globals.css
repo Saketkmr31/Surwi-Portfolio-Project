@@ -453,3 +453,34 @@
   .full-photo-hero .skill-cube:nth-child(7){--cube-left:30%;--cube-top:50%}
   .full-photo-hero .skill-cube:nth-child(8){--cube-left:35%;--cube-top:31%}
 }
+
+
+/* Full-bleed portrait treatment: the same original photo carries through the entire portfolio. */
+.portfolio-page.corporate-page{
+  background-image:linear-gradient(180deg,rgba(5,8,15,.28),rgba(5,8,15,.62)),url('/images/rupa-corporate.png');
+  background-position:center 25%;background-size:cover;background-attachment:fixed;
+}
+.portfolio-page.creator-page{
+  background-image:linear-gradient(180deg,rgba(9,5,14,.28),rgba(9,5,14,.62)),url('/images/rupa-creator.png');
+  background-position:center 25%;background-size:cover;background-attachment:fixed;
+}
+.full-photo-hero{min-height:calc(100svh - 78px);background:transparent}
+.full-photo-hero .hero-photo-backdrop{opacity:0!important}
+.full-photo-hero .photo-particle-canvas{z-index:0!important}
+.full-photo-hero .photo-shade{z-index:1!important}
+.full-photo-hero .skill-cube-field{z-index:2}
+.full-photo-hero .photo-hero-copy{z-index:3!important;text-shadow:0 2px 28px rgba(0,0,0,.38)}
+.full-photo-hero .photo-hero-mark{z-index:4}
+.skills-section:before,.reels-section:before,.experience-band:before,.contact-section:before{
+  background:linear-gradient(180deg,rgba(5,8,15,.60),rgba(5,8,15,.76))!important;
+  backdrop-filter:blur(3px);
+}
+.creator-page .skills-section:before,.creator-page .reels-section:before,.creator-page .experience-band:before,.creator-page .contact-section:before{
+  background:linear-gradient(180deg,rgba(9,5,14,.58),rgba(9,5,14,.76))!important;
+}
+.experience-band{background:rgba(12,17,27,.48)!important}
+@media(max-width:700px){
+  .portfolio-page.corporate-page,.portfolio-page.creator-page{background-attachment:scroll;background-position:center top}
+  .full-photo-hero{min-height:calc(100svh - 66px)}
+  .full-photo-hero .photo-shade{z-index:1!important}
+}
