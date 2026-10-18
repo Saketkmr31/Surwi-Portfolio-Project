@@ -105,7 +105,7 @@ export default function InteractivePhotoGrid({ image, variant = 'corporate' }: {
         const p = pointerRef.current;
         const withinPhoto = p.active && p.x >= photoX && p.x <= photoX + photoW && p.y >= photoY && p.y <= photoY + photoH;
         if (withinPhoto) {
-          const radius = Math.max(100, Math.min(168, photoW * .23));
+          const radius = Math.max(width <= 700 ? 58 : 76, Math.min(width <= 700 ? 92 : 112, photoW * .19));
           // Cut a soft opening in the photo so displaced photo pixels visibly disperse into the backdrop.
           ctx.save();
           ctx.globalCompositeOperation = 'destination-out';
@@ -124,8 +124,8 @@ export default function InteractivePhotoGrid({ image, variant = 'corporate' }: {
             const dist = Math.hypot(dx, dy);
             if (dist > radius * 1.22) continue;
             const safeDist = Math.max(1, dist);
-            const force = (1 - Math.min(1, dist / (radius * 1.22))) * (18 + radius * .28);
-            const wobble = Math.sin(time * .002 + dot.phase) * 2.5;
+            const force = (1 - Math.min(1, dist / (radius * 1.22))) * (12 + radius * .22);
+            const wobble = Math.sin(time * .0017 + dot.phase) * 1.4;
             const x = dot.x + dx / safeDist * force + wobble;
             const y = dot.y + dy / safeDist * force - wobble * .55;
             ctx.fillStyle = dot.color;
