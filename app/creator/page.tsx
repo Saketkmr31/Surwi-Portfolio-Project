@@ -1,6 +1,5 @@
-﻿'use client';
+'use client';
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
 import ContactForm from '../../components/ContactForm';
 
 const creatorDetails=['Traditional outfit styling','Saree & festive looks','Fashion transitions','Jewellery details','Beauty & makeup looks','Lifestyle moments','Reel storytelling','Creator collaborations'];
