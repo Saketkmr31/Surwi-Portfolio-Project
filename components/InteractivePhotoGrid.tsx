@@ -72,18 +72,17 @@ export default function InteractivePhotoGrid({ image, variant = 'corporate' }: {
     const preparePhoto = () => {
       if (!photo.naturalWidth || !width || !height) return;
       const mobile = width <= 700;
-      // Fill the entire hero with the real source photo (cover crop), not a narrow portrait strip.
+      // Preserve the entire original full-body portrait. Let the page's blurred photo backdrop
+      // fill the wide screen, rather than zooming/cropping the subject to cover the hero.
       const photoRatio = photo.naturalWidth / photo.naturalHeight;
-      const hostRatio = width / height;
-      if (photoRatio > hostRatio) {
-        photoH = height;
-        photoW = height * photoRatio;
-      } else {
-        photoW = width;
-        photoH = width / photoRatio;
-      }
-      photoX = (width - photoW) / 2;
-      photoY = (height - photoH) * 0.38;
+      const availableHeight = height;
+      const availableWidth = width * (mobile ? 0.96 : 0.48);
+      const scale = Math.min(availableHeight / photo.naturalHeight, availableWidth / photo.naturalWidth);
+      photoW = photo.naturalWidth * scale;
+      photoH = photo.naturalHeight * scale;
+      const subjectCenterX = width * (mobile ? 0.68 : 0.63);
+      photoX = subjectCenterX - photoW / 2;
+      photoY = height - photoH;
       sampleCanvas = document.createElement('canvas');
       sampleCanvas.width = Math.max(1, Math.round(photoW));
       sampleCanvas.height = Math.max(1, Math.round(photoH));
