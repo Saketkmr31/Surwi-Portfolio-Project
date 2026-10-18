@@ -111,8 +111,8 @@
 .photo-hero-mark{z-index:4}
 @media(max-width:700px){
  .full-photo-hero .hero-photo{object-fit:contain;object-position:center center}
- .photo-grid-tiles{grid-template-columns:repeat(8,minmax(0,1fr));grid-template-rows:repeat(12,minmax(0,1fr))}
- .photo-cube{background-size:800% 1200%}
+ .photo-grid-tiles{grid-template-columns:repeat(12,minmax(0,1fr));grid-template-rows:repeat(18,minmax(0,1fr))}
+ .photo-cube{background-size:1200% 1800%}
  .photo-cube-back{gap:3px;padding:3px}
  .photo-cube-back strong{font-size:8px}
  .photo-cube:hover,.photo-cube:focus-visible,.photo-cube.is-active{transform:translateZ(18px) rotateY(180deg) scale(1.04)}
