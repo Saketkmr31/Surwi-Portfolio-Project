@@ -544,3 +544,57 @@
     background: rgba(5, 8, 15, .42) !important;
   }
 }
+
+
+/* Correct full-site treatment: one fixed full-bleed photo behind the entire document.
+   The canvas no longer paints a separate narrow portrait strip over the hero. */
+.portfolio-page.corporate-page {
+  background-color: #090b10 !important;
+  background-image: linear-gradient(180deg, rgba(5,8,15,.24), rgba(5,8,15,.38)), url('/images/rupa-corporate.png') !important;
+  background-position: center 38% !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+}
+.portfolio-page.creator-page {
+  background-color: #090710 !important;
+  background-image: linear-gradient(180deg, rgba(9,5,14,.24), rgba(9,5,14,.40)), url('/images/rupa-creator.png') !important;
+  background-position: center 38% !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+}
+.full-photo-hero .hero-photo,
+.full-photo-hero .hero-photo-backdrop { display: none !important; }
+.full-photo-hero { background: transparent !important; }
+.full-photo-hero .photo-shade {
+  background: linear-gradient(90deg, rgba(5,8,15,.42) 0%, rgba(5,8,15,.12) 55%, rgba(5,8,15,.10) 100%) !important;
+}
+.portfolio-page .skills-section:before,
+.portfolio-page .reels-section:before,
+.portfolio-page .contact-section:before {
+  background: rgba(5,8,15,.42) !important;
+  backdrop-filter: blur(1px) !important;
+}
+.portfolio-page.creator-page .skills-section:before,
+.portfolio-page.creator-page .reels-section:before,
+.portfolio-page.creator-page .contact-section:before {
+  background: rgba(9,5,14,.44) !important;
+}
+.portfolio-page .experience-band {
+  background: rgba(5,8,15,.42) !important;
+  backdrop-filter: blur(1px) !important;
+}
+.portfolio-page .site-footer {
+  background: rgba(5,8,15,.50) !important;
+}
+@media(max-width:700px) {
+  .portfolio-page.corporate-page,
+  .portfolio-page.creator-page {
+    background-attachment: fixed !important;
+    background-position: center 35% !important;
+  }
+  .full-photo-hero .photo-shade {
+    background: linear-gradient(180deg, rgba(5,8,15,.12), rgba(5,8,15,.50)) !important;
+  }
+}
