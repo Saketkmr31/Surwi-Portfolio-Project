@@ -62,3 +62,8 @@
 .photo-hero-mark span:first-child{font-size:13px;color:#fff}
 .creator-photo-hero .photo-hero-mark span:first-child{color:#f0b6ff}
 @media(max-width:700px){.full-photo-hero{min-height:calc(100svh - 66px);padding:44px 22px 118px;align-items:flex-end}.hero-photo{object-position:58% center}.corporate-photo-hero .hero-photo{object-position:58% center}.creator-photo-hero .hero-photo{object-position:56% center}.photo-shade{background:linear-gradient(0deg,rgba(5,8,15,.96) 0%,rgba(5,8,15,.76) 40%,rgba(5,8,15,.14) 100%)}.creator-photo-hero .photo-shade{background:linear-gradient(0deg,rgba(12,5,15,.96) 0%,rgba(12,5,15,.73) 42%,rgba(12,5,15,.12) 100%)}.photo-hero-copy{width:100%;max-width:100%}.photo-hero-copy h1{font-size:clamp(48px,12vw,70px)}.photo-hero-copy .hero-intro{font-size:13px;max-width:380px}.photo-hero-copy .stat-strip,.photo-hero-copy .social-metrics{margin-top:24px}.photo-hero-mark{right:22px;top:20px;bottom:auto;font-size:8px}.photo-hero-mark span:first-child{font-size:10px}}
+
+/* Face-first crop for full-screen portrait heroes */
+.corporate-photo-hero .hero-photo{object-position:center 0%}
+.creator-photo-hero .hero-photo{object-position:center 0%}
+@media(max-width:700px){.corporate-photo-hero .hero-photo{object-position:center 0%}.creator-photo-hero .hero-photo{object-position:center 0%}}
