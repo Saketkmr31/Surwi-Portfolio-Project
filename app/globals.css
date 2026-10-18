@@ -308,3 +308,13 @@
  .skill-cube-face i{font-size:11px}
 }
 @media(prefers-reduced-motion:reduce){.photoParticleFloat{animation:none}.skill-cube{animation:none}}
+
+
+/* Final interaction layer: the portrait reacts to the pointer, while controls remain clickable. */
+.full-photo-hero .interactive-photo-grid{pointer-events:auto;z-index:3}
+.photo-particle-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;display:block}
+.skill-cube-field{pointer-events:none;z-index:2}
+.skill-cube{pointer-events:auto}
+.photo-hero-copy{z-index:5}
+.photo-hero-mark{z-index:5}
+.photo-skill-chip{z-index:6}
