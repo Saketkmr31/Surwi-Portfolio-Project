@@ -29,7 +29,7 @@ export default function Corporate() {
       </nav>
 
       <section className="full-photo-hero corporate-photo-hero" id="profile">
-        <img className="hero-photo" src="/images/rupa-corporate.png" alt="Rupa Kumari in a professional studio portrait" />
+        <img className="hero-photo-backdrop" src="/images/rupa-corporate.png" alt="" aria-hidden="true" /><img className="hero-photo" src="/images/rupa-corporate.png" alt="Rupa Kumari in a professional studio portrait" />
         <div className="photo-shade" />
         <InteractivePhotoGrid image="/images/rupa-corporate.png" variant="corporate" />
         <div className="hero-copy photo-hero-copy">
