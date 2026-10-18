@@ -141,7 +141,7 @@ function Mosaic({ imageUrl, mobile, onSelect, accent }: {
         }}
       >
         <boxGeometry args={[1, 1, 1]} />
-        <meshBasicMaterial vertexColors />
+        <meshBasicMaterial />
       </instancedMesh>
     ) : (
       <mesh>
