@@ -105,13 +105,13 @@ export default function InteractivePhotoGrid({ image, variant = 'corporate' }: {
         const p = pointerRef.current;
         const withinPhoto = p.active && p.x >= photoX && p.x <= photoX + photoW && p.y >= photoY && p.y <= photoY + photoH;
         if (withinPhoto) {
-          const radius = Math.max(width <= 700 ? 58 : 76, Math.min(width <= 700 ? 92 : 112, photoW * .19));
+          const radius = Math.max(width <= 700 ? 34 : 44, Math.min(width <= 700 ? 48 : 64, photoW * .11));
           // Cut a soft opening in the photo so displaced photo pixels visibly disperse into the backdrop.
           ctx.save();
           ctx.globalCompositeOperation = 'destination-out';
           const hole = ctx.createRadialGradient(p.x, p.y, radius * .24, p.x, p.y, radius);
-          hole.addColorStop(0, 'rgba(0,0,0,.94)');
-          hole.addColorStop(.72, 'rgba(0,0,0,.72)');
+          hole.addColorStop(0, 'rgba(0,0,0,.72)');
+          hole.addColorStop(.72, 'rgba(0,0,0,.38)');
           hole.addColorStop(1, 'rgba(0,0,0,0)');
           ctx.fillStyle = hole;
           ctx.beginPath(); ctx.arc(p.x, p.y, radius, 0, Math.PI * 2); ctx.fill();
@@ -124,8 +124,8 @@ export default function InteractivePhotoGrid({ image, variant = 'corporate' }: {
             const dist = Math.hypot(dx, dy);
             if (dist > radius * 1.22) continue;
             const safeDist = Math.max(1, dist);
-            const force = (1 - Math.min(1, dist / (radius * 1.22))) * (12 + radius * .22);
-            const wobble = Math.sin(time * .0017 + dot.phase) * 1.4;
+            const force = (1 - Math.min(1, dist / (radius * 1.22))) * (7 + radius * .16);
+            const wobble = Math.sin(time * .0017 + dot.phase) * .7;
             const x = dot.x + dx / safeDist * force + wobble;
             const y = dot.y + dy / safeDist * force - wobble * .55;
             ctx.fillStyle = dot.color;
@@ -137,13 +137,13 @@ export default function InteractivePhotoGrid({ image, variant = 'corporate' }: {
           // Fine light motes and links accent the real pixel fragments, rather than replacing them.
           ctx.save();
           ctx.globalCompositeOperation = 'lighter';
-          const moteCount = 24;
+          const moteCount = 10;
           for (let i = 0; i < moteCount; i++) {
             const angle = time * .00025 + i * 2.399;
-            const orbit = 18 + ((i * 37) % Math.max(40, radius - 12));
+            const orbit = 8 + ((i * 17) % Math.max(18, radius - 8));
             const mx = p.x + Math.cos(angle) * orbit;
             const my = p.y + Math.sin(angle * 1.13) * orbit;
-            const alpha = .24 + .3 * (Math.sin(time * .003 + i) + 1) / 2;
+            const alpha = .12 + .18 * (Math.sin(time * .003 + i) + 1) / 2;
             ctx.fillStyle = `rgba(${accent[0]},${accent[1]},${accent[2]},${alpha})`;
             ctx.beginPath(); ctx.arc(mx, my, i % 4 === 0 ? 1.8 : 1.1, 0, Math.PI * 2); ctx.fill();
           }
