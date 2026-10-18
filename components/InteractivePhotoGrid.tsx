@@ -72,11 +72,18 @@ export default function InteractivePhotoGrid({ image, variant = 'corporate' }: {
     const preparePhoto = () => {
       if (!photo.naturalWidth || !width || !height) return;
       const mobile = width <= 700;
-      photoH = height;
-      photoW = Math.min(photoH * photo.naturalWidth / photo.naturalHeight, width * (mobile ? .86 : .52));
-      photoH = photoW * photo.naturalHeight / photo.naturalWidth;
-      photoX = width * .5 - photoW * (mobile ? .05 : .02);
-      photoY = height - photoH;
+      // Fill the entire hero with the real source photo (cover crop), not a narrow portrait strip.
+      const photoRatio = photo.naturalWidth / photo.naturalHeight;
+      const hostRatio = width / height;
+      if (photoRatio > hostRatio) {
+        photoH = height;
+        photoW = height * photoRatio;
+      } else {
+        photoW = width;
+        photoH = width / photoRatio;
+      }
+      photoX = (width - photoW) / 2;
+      photoY = (height - photoH) * 0.38;
       sampleCanvas = document.createElement('canvas');
       sampleCanvas.width = Math.max(1, Math.round(photoW));
       sampleCanvas.height = Math.max(1, Math.round(photoH));
