@@ -72,8 +72,8 @@ export default function InteractivePhotoGrid({ image, variant = 'corporate' }: {
     const preparePhoto = () => {
       if (!photo.naturalWidth || !width || !height) return;
       const mobile = width <= 700;
-      // Preserve the entire original full-body portrait. Let the page's blurred photo backdrop
-      // fill the wide screen, rather than zooming/cropping the subject to cover the hero.
+      // The page-level image is the full-bleed photo layer. Keep a proportional, full-body
+      // portrait map for particle sampling, but do not paint a narrow portrait strip on the canvas.
       const photoRatio = photo.naturalWidth / photo.naturalHeight;
       const availableHeight = height;
       const availableWidth = width * (mobile ? 0.96 : 0.48);
@@ -107,8 +107,8 @@ export default function InteractivePhotoGrid({ image, variant = 'corporate' }: {
     const draw = (time: number) => {
       ctx.clearRect(0, 0, width, height);
       if (ready && photo.complete) {
-        // The canvas renders the actual source portrait at native aspect ratio, not a generated substitute.
-        ctx.drawImage(photo, photoX, photoY, photoW, photoH);
+        // The photo itself is a page-wide CSS background. Canvas is reserved for the
+        // localized source-image fragments so no central portrait strip is painted over it.
         const p = pointerRef.current;
         interaction += ((p.active ? 1 : 0) - interaction) * (p.active ? .19 : .105);
         const withinPhoto = interaction > .025 && p.x >= photoX && p.x <= photoX + photoW && p.y >= photoY && p.y <= photoY + photoH;
