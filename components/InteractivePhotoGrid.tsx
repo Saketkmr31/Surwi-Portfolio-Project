@@ -28,7 +28,7 @@ export default function InteractivePhotoGrid({ image, variant = 'corporate' }: {
   const skills = variant === 'creator' ? creatorSkills : corporateSkills;
 
   return (
-    <div className={'interactive-photo-grid ' + variant} aria-label="Floating 3D skill cubes">
+    <div className={'interactive-photo-grid ' + variant} aria-label="Interactive floating skill cubes">
       <div className="skill-cube-field">
         {skills.map((skill, i) => (
           <button
