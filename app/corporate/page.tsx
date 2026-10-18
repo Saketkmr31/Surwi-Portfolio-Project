@@ -40,11 +40,6 @@ export default function Corporate() {
             <a className="primary-button" href="#contact">Start a conversation ↗</a>
             <a className="text-link" href="#skills">Explore capabilities ↓</a>
           </div>
-          <div className="stat-strip">
-            <div><strong>01</strong><span>Guest experience</span></div>
-            <div><strong>02</strong><span>Facility operations</span></div>
-            <div><strong>03</strong><span>Daily coordination</span></div>
-          </div>
         </div>
         <div className="photo-hero-mark"><span>RUPA KUMARI</span><span>GUEST RELATIONS · FACILITY OPERATIONS</span></div>
       </section>
