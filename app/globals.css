@@ -67,3 +67,21 @@
 .corporate-photo-hero .hero-photo{object-position:center 0%}
 .creator-photo-hero .hero-photo{object-position:center 0%}
 @media(max-width:700px){.corporate-photo-hero .hero-photo{object-position:center 0%}.creator-photo-hero .hero-photo{object-position:center 0%}}
+
+/* Interactive full-screen photo mosaic */
+.interactive-photo-grid{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.photo-grid-tiles{position:absolute;inset:0;display:grid;grid-template-columns:repeat(18,minmax(0,1fr));grid-template-rows:repeat(26,minmax(0,1fr));perspective:1000px;pointer-events:none}
+.photo-grid-tile{min-width:0;min-height:0;padding:0;border:0;border-right:1px solid rgba(255,255,255,.045);border-bottom:1px solid rgba(255,255,255,.045);background-repeat:no-repeat;opacity:0;transform:translate3d(0,0,0) scale(.96);pointer-events:auto;cursor:crosshair;transition:transform .38s cubic-bezier(.2,.8,.2,1),opacity .25s ease,box-shadow .3s ease,filter .3s ease;filter:saturate(.95)}
+.photo-grid-tile:hover,.photo-grid-tile:focus-visible,.photo-grid-tile.is-active{opacity:.98;z-index:4;transform:translate3d(0,0,22px) scale(1.08);box-shadow:0 12px 30px rgba(0,0,0,.45),inset 0 0 0 1px rgba(255,255,255,.8);filter:saturate(1.18) brightness(1.08);outline:1px solid rgba(255,255,255,.75)}
+.photo-hero-copy{z-index:2;pointer-events:none}
+.photo-hero-copy a{pointer-events:auto}
+.photo-skill-chip{position:absolute;z-index:3;left:clamp(24px,8vw,140px);bottom:clamp(22px,3.5vw,48px);display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:rgba(6,9,16,.76);backdrop-filter:blur(16px);color:#fff;font-size:12px;opacity:.75;transform:translateY(4px);transition:opacity .25s,transform .25s;pointer-events:none}
+.photo-skill-chip.visible{opacity:1;transform:translateY(0)}
+.photo-skill-chip span{display:grid;place-items:center;width:25px;height:25px;border-radius:7px;background:rgba(104,168,255,.2);color:#9bc5ff;font:10px 'DM Mono',monospace}
+.creator .photo-skill-chip span{background:rgba(215,123,255,.2);color:#f0b6ff}
+.floating-cube{position:absolute;width:24px;height:24px;border:1px solid rgba(255,255,255,.42);background:linear-gradient(135deg,rgba(255,255,255,.18),rgba(255,255,255,.015));box-shadow:0 0 24px rgba(104,168,255,.15);transform:rotate(45deg);animation:cubeFloat 7s ease-in-out infinite;pointer-events:none}
+.creator .floating-cube{box-shadow:0 0 24px rgba(215,123,255,.22);border-color:rgba(238,190,255,.5)}
+.cube-one{right:14%;top:23%;width:26px;height:26px}.cube-two{right:9%;top:57%;width:14px;height:14px;animation-delay:-2.4s}.cube-three{left:43%;top:17%;width:10px;height:10px;animation-delay:-4.2s}
+@keyframes cubeFloat{0%,100%{translate:0 0;rotate:45deg}50%{translate:0 -18px;rotate:90deg}}
+@media(max-width:700px){.photo-grid-tiles{grid-template-columns:repeat(12,minmax(0,1fr));grid-template-rows:repeat(18,minmax(0,1fr))}.photo-grid-tile{background-size:1200% 1800%}.photo-skill-chip{left:22px;bottom:22px;font-size:11px}.photo-hero-copy{pointer-events:none}.photo-hero-copy a{pointer-events:auto}.floating-cube{width:16px;height:16px}.cube-one{right:10%;top:25%}.cube-two{right:7%;top:53%}.cube-three{left:70%;top:17%}}
+@media(prefers-reduced-motion:reduce){.photo-grid-tile,.floating-cube{animation:none;transition:none}}
