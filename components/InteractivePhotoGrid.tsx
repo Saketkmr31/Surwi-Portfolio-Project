@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from 'react';
 
 type Skill = [string, string, string];
-
 const corporateSkills: Skill[] = [
   ['01', 'Guest relations', 'Warm, professional visitor experience'],
   ['02', 'Visitor management', 'Smooth arrivals and client handling'],
@@ -25,7 +24,7 @@ const creatorSkills: Skill[] = [
   ['08', 'Social content', 'Reels, posts and community'],
 ];
 
-type Particle = { x: number; y: number; ox: number; oy: number; r: number; phase: number; speed: number };
+type PhotoParticle = { x: number; y: number; color: string; size: number; phase: number };
 
 export default function InteractivePhotoGrid({ image, variant = 'corporate' }: { image: string; variant?: 'corporate' | 'creator' }) {
   const [active, setActive] = useState<number | null>(null);
@@ -36,91 +35,133 @@ export default function InteractivePhotoGrid({ image, variant = 'corporate' }: {
   useEffect(() => {
     const canvas = canvasRef.current;
     const host = canvas?.parentElement;
-    const ctx = canvas?.getContext('2d');
+    const ctx = canvas?.getContext('2d', { alpha: true });
     if (!canvas || !host || !ctx) return;
+
+    const photo = new Image();
+    photo.decoding = 'async';
+    photo.src = image;
     let raf = 0;
     let width = 0;
     let height = 0;
-    let particles: Particle[] = [];
+    let dpr = 1;
+    let photoX = 0;
+    let photoY = 0;
+    let photoW = 0;
+    let photoH = 0;
+    let particles: PhotoParticle[] = [];
+    let sampleCanvas: HTMLCanvasElement | null = null;
+    let sampleCtx: CanvasRenderingContext2D | null = null;
+    let ready = false;
+    const accent = variant === 'creator' ? [235, 171, 255] : [135, 194, 255];
+
     const resize = () => {
       const rect = host.getBoundingClientRect();
       width = rect.width;
       height = rect.height;
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      dpr = Math.min(window.devicePixelRatio || 1, 2.5);
       canvas.width = Math.round(width * dpr);
       canvas.height = Math.round(height * dpr);
       canvas.style.width = width + 'px';
       canvas.style.height = height + 'px';
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const count = Math.min(150, Math.max(64, Math.round(width * height / 10500)));
-      particles = Array.from({ length: count }, (_, i) => {
-        const x = Math.random() * width;
-        const y = Math.random() * height;
-        return { x, y, ox: x, oy: y, r: .6 + Math.random() * 1.6, phase: Math.random() * Math.PI * 2, speed: .25 + Math.random() * .7 };
-      });
+      if (photo.complete && photo.naturalWidth) preparePhoto();
     };
+
+    const preparePhoto = () => {
+      if (!photo.naturalWidth || !width || !height) return;
+      const mobile = width <= 700;
+      photoH = height;
+      photoW = Math.min(photoH * photo.naturalWidth / photo.naturalHeight, width * (mobile ? .86 : .52));
+      photoH = photoW * photo.naturalHeight / photo.naturalWidth;
+      photoX = width * .5 - photoW * (mobile ? .05 : .02);
+      photoY = height - photoH;
+      sampleCanvas = document.createElement('canvas');
+      sampleCanvas.width = Math.max(1, Math.round(photoW));
+      sampleCanvas.height = Math.max(1, Math.round(photoH));
+      sampleCtx = sampleCanvas.getContext('2d', { willReadFrequently: true });
+      if (!sampleCtx) return;
+      sampleCtx.drawImage(photo, 0, 0, sampleCanvas.width, sampleCanvas.height);
+      const pixels = sampleCtx.getImageData(0, 0, sampleCanvas.width, sampleCanvas.height).data;
+      particles = [];
+      // Small source-image fragments preserve the original portrait's real colours and detail.
+      const step = Math.max(6, Math.round(Math.max(photoW, photoH) / 150));
+      for (let y = 0; y < sampleCanvas.height; y += step) {
+        for (let x = 0; x < sampleCanvas.width; x += step) {
+          const k = (y * sampleCanvas.width + x) * 4;
+          if (pixels[k + 3] < 70) continue;
+          const color = `rgba(${pixels[k]},${pixels[k + 1]},${pixels[k + 2]},${Math.min(1, pixels[k + 3] / 255)})`;
+          particles.push({ x: photoX + x, y: photoY + y, color, size: step * (.62 + Math.random() * .34), phase: Math.random() * Math.PI * 2 });
+        }
+      }
+      ready = true;
+    };
+
     const draw = (time: number) => {
       ctx.clearRect(0, 0, width, height);
-      const p = pointerRef.current;
-      const accent = variant === 'creator' ? [230, 155, 255] : [131, 190, 255];
-      const points: { x: number; y: number; r: number }[] = [];
-      for (const dot of particles) {
-        const floatX = Math.sin(time * .00024 * dot.speed + dot.phase) * 8;
-        const floatY = Math.cos(time * .0002 * dot.speed + dot.phase) * 7;
-        let tx = dot.ox + floatX;
-        let ty = dot.oy + floatY;
-        if (p.active) {
-          const dx = tx - p.x;
-          const dy = ty - p.y;
-          const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-          const radius = 155;
-          if (dist < radius) {
-            const force = (1 - dist / radius) * 27;
-            tx += dx / dist * force;
-            ty += dy / dist * force;
+      if (ready && photo.complete) {
+        // The canvas renders the actual source portrait at native aspect ratio, not a generated substitute.
+        ctx.drawImage(photo, photoX, photoY, photoW, photoH);
+        const p = pointerRef.current;
+        const withinPhoto = p.active && p.x >= photoX && p.x <= photoX + photoW && p.y >= photoY && p.y <= photoY + photoH;
+        if (withinPhoto) {
+          const radius = Math.max(100, Math.min(168, photoW * .23));
+          // Cut a soft opening in the photo so displaced photo pixels visibly disperse into the backdrop.
+          ctx.save();
+          ctx.globalCompositeOperation = 'destination-out';
+          const hole = ctx.createRadialGradient(p.x, p.y, radius * .24, p.x, p.y, radius);
+          hole.addColorStop(0, 'rgba(0,0,0,.94)');
+          hole.addColorStop(.72, 'rgba(0,0,0,.72)');
+          hole.addColorStop(1, 'rgba(0,0,0,0)');
+          ctx.fillStyle = hole;
+          ctx.beginPath(); ctx.arc(p.x, p.y, radius, 0, Math.PI * 2); ctx.fill();
+          ctx.restore();
+
+          // Draw the original photo's sampled pixels as fragments pushed away from the cursor.
+          for (const dot of particles) {
+            const dx = dot.x - p.x;
+            const dy = dot.y - p.y;
+            const dist = Math.hypot(dx, dy);
+            if (dist > radius * 1.22) continue;
+            const safeDist = Math.max(1, dist);
+            const force = (1 - Math.min(1, dist / (radius * 1.22))) * (18 + radius * .28);
+            const wobble = Math.sin(time * .002 + dot.phase) * 2.5;
+            const x = dot.x + dx / safeDist * force + wobble;
+            const y = dot.y + dy / safeDist * force - wobble * .55;
+            ctx.fillStyle = dot.color;
+            ctx.shadowColor = `rgba(${accent[0]},${accent[1]},${accent[2]},.45)`;
+            ctx.shadowBlur = 5;
+            ctx.fillRect(x, y, dot.size, dot.size);
           }
-        }
-        dot.x += (tx - dot.x) * .075;
-        dot.y += (ty - dot.y) * .075;
-        const dx = dot.x - (p.active ? p.x : -1000);
-        const dy = dot.y - (p.active ? p.y : -1000);
-        const near = p.active ? Math.max(0, 1 - Math.sqrt(dx * dx + dy * dy) / 190) : 0;
-        const alpha = .17 + near * .72;
-        ctx.beginPath();
-        ctx.arc(dot.x, dot.y, dot.r + near * 1.25, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${accent[0]},${accent[1]},${accent[2]},${alpha})`;
-        ctx.fill();
-        if (near > .06) points.push({ x: dot.x, y: dot.y, r: near });
-      }
-      if (p.active) {
-        ctx.lineWidth = .65;
-        for (let i = 0; i < points.length; i++) {
-          const a = points[i];
-          for (let j = i + 1; j < points.length; j++) {
-            const b = points[j];
-            const dx = a.x - b.x;
-            const dy = a.y - b.y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < 66) {
-              ctx.strokeStyle = `rgba(${accent[0]},${accent[1]},${accent[2]},${Math.min(a.r, b.r) * (1 - dist / 66) * .34})`;
-              ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
-            }
+          ctx.shadowBlur = 0;
+          // Fine light motes and links accent the real pixel fragments, rather than replacing them.
+          ctx.save();
+          ctx.globalCompositeOperation = 'lighter';
+          const moteCount = 24;
+          for (let i = 0; i < moteCount; i++) {
+            const angle = time * .00025 + i * 2.399;
+            const orbit = 18 + ((i * 37) % Math.max(40, radius - 12));
+            const mx = p.x + Math.cos(angle) * orbit;
+            const my = p.y + Math.sin(angle * 1.13) * orbit;
+            const alpha = .24 + .3 * (Math.sin(time * .003 + i) + 1) / 2;
+            ctx.fillStyle = `rgba(${accent[0]},${accent[1]},${accent[2]},${alpha})`;
+            ctx.beginPath(); ctx.arc(mx, my, i % 4 === 0 ? 1.8 : 1.1, 0, Math.PI * 2); ctx.fill();
           }
+          ctx.restore();
         }
-        const glow = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, 135);
-        glow.addColorStop(0, `rgba(${accent[0]},${accent[1]},${accent[2]},.13)`);
-        glow.addColorStop(1, `rgba(${accent[0]},${accent[1]},${accent[2]},0)`);
-        ctx.fillStyle = glow;
-        ctx.beginPath(); ctx.arc(p.x, p.y, 135, 0, Math.PI * 2); ctx.fill();
       }
       raf = requestAnimationFrame(draw);
     };
-    resize();
+
     const observer = new ResizeObserver(resize);
     observer.observe(host);
+    resize();
+    if (photo.complete && photo.naturalWidth) preparePhoto();
+    photo.onload = () => preparePhoto();
+    photo.onerror = () => { ready = false; };
     raf = requestAnimationFrame(draw);
-    return () => { cancelAnimationFrame(raf); observer.disconnect(); };
-  }, [variant]);
+    return () => { cancelAnimationFrame(raf); observer.disconnect(); photo.onload = null; };
+  }, [image, variant]);
 
   const updatePointer = (event: React.PointerEvent<HTMLDivElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
@@ -129,7 +170,7 @@ export default function InteractivePhotoGrid({ image, variant = 'corporate' }: {
   const clearPointer = () => { pointerRef.current.active = false; };
 
   return (
-    <div className={'interactive-photo-grid ' + variant} aria-label="Interactive portrait particles and 3D skill cubes"
+    <div className={'interactive-photo-grid ' + variant} aria-label="Interactive portrait with photo-pixel dispersion and 3D skill cubes"
       onPointerMove={updatePointer} onPointerLeave={clearPointer} onPointerDown={updatePointer}>
       <canvas ref={canvasRef} className="photo-particle-canvas" aria-hidden="true" />
       <div className="skill-cube-field">
