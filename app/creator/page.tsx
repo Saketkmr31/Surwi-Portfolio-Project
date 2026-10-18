@@ -24,7 +24,7 @@ export default function Creator() {
       </nav>
 
       <section className="full-photo-hero creator-photo-hero" id="world">
-        <img className="hero-photo" src="/images/rupa-creator.png" alt="Rupa in an emerald green and gold saree portrait" />
+        <img className="hero-photo-backdrop" src="/images/rupa-creator.png" alt="" aria-hidden="true" /><img className="hero-photo" src="/images/rupa-creator.png" alt="Rupa in an emerald green and gold saree portrait" />
         <div className="photo-shade" />
         <InteractivePhotoGrid image="/images/rupa-creator.png" variant="creator" />
         <div className="hero-copy photo-hero-copy">
