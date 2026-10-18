@@ -53,6 +53,7 @@ export default function InteractivePhotoGrid({ image, variant = 'corporate' }: {
     let sampleCanvas: HTMLCanvasElement | null = null;
     let sampleCtx: CanvasRenderingContext2D | null = null;
     let ready = false;
+    let interaction = 0;
     const accent = variant === 'creator' ? [235, 171, 255] : [135, 194, 255];
 
     const resize = () => {
@@ -103,15 +104,16 @@ export default function InteractivePhotoGrid({ image, variant = 'corporate' }: {
         // The canvas renders the actual source portrait at native aspect ratio, not a generated substitute.
         ctx.drawImage(photo, photoX, photoY, photoW, photoH);
         const p = pointerRef.current;
-        const withinPhoto = p.active && p.x >= photoX && p.x <= photoX + photoW && p.y >= photoY && p.y <= photoY + photoH;
+        interaction += ((p.active ? 1 : 0) - interaction) * (p.active ? .19 : .105);
+        const withinPhoto = interaction > .025 && p.x >= photoX && p.x <= photoX + photoW && p.y >= photoY && p.y <= photoY + photoH;
         if (withinPhoto) {
           const radius = Math.max(width <= 700 ? 34 : 44, Math.min(width <= 700 ? 48 : 64, photoW * .11));
           // Cut a soft opening in the photo so displaced photo pixels visibly disperse into the backdrop.
           ctx.save();
           ctx.globalCompositeOperation = 'destination-out';
           const hole = ctx.createRadialGradient(p.x, p.y, radius * .24, p.x, p.y, radius);
-          hole.addColorStop(0, 'rgba(0,0,0,.72)');
-          hole.addColorStop(.72, 'rgba(0,0,0,.38)');
+          hole.addColorStop(0, `rgba(0,0,0,${.58 * interaction})`);
+          hole.addColorStop(.72, `rgba(0,0,0,${.25 * interaction})`);
           hole.addColorStop(1, 'rgba(0,0,0,0)');
           ctx.fillStyle = hole;
           ctx.beginPath(); ctx.arc(p.x, p.y, radius, 0, Math.PI * 2); ctx.fill();
@@ -124,7 +126,7 @@ export default function InteractivePhotoGrid({ image, variant = 'corporate' }: {
             const dist = Math.hypot(dx, dy);
             if (dist > radius * 1.22) continue;
             const safeDist = Math.max(1, dist);
-            const force = (1 - Math.min(1, dist / (radius * 1.22))) * (7 + radius * .16);
+            const force = (1 - Math.min(1, dist / (radius * 1.22))) * (7 + radius * .16) * interaction;
             const wobble = Math.sin(time * .0017 + dot.phase) * .7;
             const x = dot.x + dx / safeDist * force + wobble;
             const y = dot.y + dy / safeDist * force - wobble * .55;
@@ -143,7 +145,7 @@ export default function InteractivePhotoGrid({ image, variant = 'corporate' }: {
             const orbit = 8 + ((i * 17) % Math.max(18, radius - 8));
             const mx = p.x + Math.cos(angle) * orbit;
             const my = p.y + Math.sin(angle * 1.13) * orbit;
-            const alpha = .12 + .18 * (Math.sin(time * .003 + i) + 1) / 2;
+            const alpha = (.12 + .18 * (Math.sin(time * .003 + i) + 1) / 2) * interaction;
             ctx.fillStyle = `rgba(${accent[0]},${accent[1]},${accent[2]},${alpha})`;
             ctx.beginPath(); ctx.arc(mx, my, i % 4 === 0 ? 1.8 : 1.1, 0, Math.PI * 2); ctx.fill();
           }
