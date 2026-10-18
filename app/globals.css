@@ -484,3 +484,63 @@
   .full-photo-hero{min-height:calc(100svh - 66px)}
   .full-photo-hero .photo-shade{z-index:1!important}
 }
+
+
+/* FINAL FIX: the portrait must remain behind EVERY section, not only the first hero.
+   Keep the entire page canvas transparent and use light translucent overlays so the
+   portrait is still visibly present while scrolling through skills, experience and contact. */
+.portfolio-page.corporate-page,
+.portfolio-page.creator-page {
+  background-attachment: fixed !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-position: center center !important;
+}
+.portfolio-page.corporate-page > .section,
+.portfolio-page.creator-page > .section,
+.portfolio-page.corporate-page > .contact-section,
+.portfolio-page.creator-page > .contact-section,
+.portfolio-page.corporate-page > .experience-band,
+.portfolio-page.creator-page > .experience-band {
+  background: transparent !important;
+}
+.portfolio-page .skills-section:before,
+.portfolio-page .reels-section:before,
+.portfolio-page .contact-section:before {
+  background: rgba(5, 8, 15, .28) !important;
+  backdrop-filter: blur(1.5px);
+}
+.portfolio-page.creator-page .skills-section:before,
+.portfolio-page.creator-page .reels-section:before,
+.portfolio-page.creator-page .contact-section:before {
+  background: rgba(9, 5, 14, .30) !important;
+}
+.portfolio-page .experience-band {
+  background: rgba(5, 8, 15, .30) !important;
+  backdrop-filter: blur(1.5px);
+}
+.portfolio-page .site-footer {
+  background: rgba(5, 8, 15, .40) !important;
+  backdrop-filter: blur(2px);
+}
+.portfolio-page .section,
+.portfolio-page .contact-section {
+  max-width: none;
+}
+.portfolio-page .section > *,
+.portfolio-page .contact-section > * {
+  position: relative;
+}
+@media (max-width: 700px) {
+  .portfolio-page.corporate-page,
+  .portfolio-page.creator-page {
+    background-attachment: fixed !important;
+    background-position: center center !important;
+  }
+  .portfolio-page .skills-section:before,
+  .portfolio-page .reels-section:before,
+  .portfolio-page .contact-section:before,
+  .portfolio-page .experience-band {
+    background: rgba(5, 8, 15, .42) !important;
+  }
+}
