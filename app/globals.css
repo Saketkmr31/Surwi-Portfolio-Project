@@ -318,3 +318,51 @@
 .photo-hero-copy{z-index:5}
 .photo-hero-mark{z-index:5}
 .photo-skill-chip{z-index:6}
+
+
+/* Immersive photo-first layout correction: full-bleed image atmosphere + full-height portrait. */
+.full-photo-hero{
+  min-height:calc(100svh - 78px);
+  padding:clamp(26px,5vw,76px) clamp(22px,6vw,96px);
+  background:#080b12;
+}
+.full-photo-hero .hero-photo-backdrop{
+  position:absolute;inset:-3%;width:106%;height:106%;
+  object-fit:cover;object-position:center 25%;
+  filter:blur(17px) brightness(.43) saturate(1.18);
+  transform:scale(1.06);z-index:-3;opacity:.96;
+}
+.full-photo-hero .hero-photo{
+  position:absolute;top:0;left:50%;right:auto;bottom:0;
+  width:auto;height:100%;max-width:52vw;
+  object-fit:contain;object-position:center bottom;
+  transform:translateX(-2%) scale(1.015);
+  transform-origin:center bottom;z-index:-2;
+  filter:drop-shadow(0 14px 40px rgba(0,0,0,.22));
+}
+.full-photo-hero .photo-shade{
+  z-index:-1;
+  background:linear-gradient(90deg,rgba(5,8,15,.91) 0%,rgba(5,8,15,.70) 29%,rgba(5,8,15,.16) 56%,rgba(5,8,15,.16) 100%),linear-gradient(0deg,rgba(5,8,15,.44),transparent 36%);
+}
+.creator-photo-hero .photo-shade{
+  background:linear-gradient(90deg,rgba(12,5,15,.89) 0%,rgba(12,5,15,.64) 29%,rgba(12,5,15,.12) 56%,rgba(12,5,15,.13) 100%),linear-gradient(0deg,rgba(12,5,15,.4),transparent 36%);
+}
+.full-photo-hero .photo-hero-copy{width:min(560px,42vw);max-width:560px;z-index:5}
+.full-photo-hero .photo-hero-copy h1{font-size:clamp(52px,6.6vw,94px)}
+.full-photo-hero .interactive-photo-grid{position:absolute;inset:0;z-index:3;pointer-events:auto}
+.full-photo-hero .photo-particle-canvas{z-index:0;mix-blend-mode:screen;opacity:.92}
+.full-photo-hero .skill-cube-field{inset:0;z-index:2}
+.full-photo-hero .skill-cube{--cube-size:clamp(64px,6vw,96px);opacity:.9}
+.full-photo-hero .skill-cube-face{background:linear-gradient(145deg,rgba(94,157,238,.32),rgba(5,10,22,.52) 78%);border-color:rgba(188,221,255,.78);box-shadow:inset 0 0 20px rgba(125,190,255,.18),0 0 22px rgba(83,157,255,.16)}
+.creator-photo-hero .skill-cube-face{background:linear-gradient(145deg,rgba(174,91,203,.34),rgba(24,9,28,.56) 78%);border-color:rgba(255,213,165,.8);box-shadow:inset 0 0 20px rgba(255,174,85,.15),0 0 22px rgba(207,114,255,.16)}
+.full-photo-hero .photo-skill-chip{bottom:28px;left:28px;right:auto}
+@media(max-width:700px){
+  .full-photo-hero{min-height:calc(100svh - 66px);padding:28px 20px 112px;align-items:flex-end}
+  .full-photo-hero .hero-photo-backdrop{object-position:center 20%;filter:blur(14px) brightness(.34) saturate(1.1)}
+  .full-photo-hero .hero-photo{left:50%;height:100%;max-width:86vw;transform:translateX(-5%) scale(1.02);object-position:center bottom}
+  .full-photo-hero .photo-hero-copy{width:100%;max-width:100%}
+  .full-photo-hero .photo-hero-copy h1{font-size:clamp(44px,11vw,66px)}
+  .full-photo-hero .photo-shade{background:linear-gradient(0deg,rgba(5,8,15,.96) 0%,rgba(5,8,15,.82) 42%,rgba(5,8,15,.12) 100%)}
+  .full-photo-hero .photo-skill-chip{left:16px;bottom:18px}
+  .full-photo-hero .skill-cube{--cube-size:clamp(48px,13vw,68px)}
+}
